@@ -582,6 +582,31 @@
   .modal-body .artifact-head { margin-top: 6px; }
   @media (max-width: 560px) { .modal-body { padding: 4px 22px 34px; } }
 
+  /* ---------- Artifact 04: spec strip + logic diagram ---------- */
+  .spec-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin: 22px 0 6px;
+  }
+  .spec-strip .cell { background: #F1F0EB; padding: 18px 20px; }
+  .spec-strip .fig { font-weight: 800; font-stretch: 110%; font-size: 26px; letter-spacing: -0.01em; line-height: 1; margin-bottom: 7px; }
+  .spec-strip .cap { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--slate); }
+  @media (max-width: 560px) { .spec-strip { grid-template-columns: 1fr; } }
+
+  figure.logic { margin: 26px 0 6px; background: var(--stone); border: 1px solid var(--line); padding: 26px 18px 14px; }
+  figure.logic svg { width: 100%; height: auto; display: block; }
+  figure.logic figcaption { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--slate); text-align: center; margin-top: 12px; }
+  .lg-box { fill: #F5F4EF; stroke: var(--sodalite); stroke-width: 1.6; }
+  .lg-amber { fill: #F5F4EF; stroke: #C68A2E; stroke-width: 1.6; }
+  .lg-line { stroke: var(--slate); stroke-width: 1.3; fill: none; }
+  .lg-t { font-family: 'IBM Plex Mono', monospace; font-size: 12px; fill: var(--graphite); }
+  .lg-tc { font-family: 'IBM Plex Mono', monospace; font-size: 12px; fill: var(--graphite); text-anchor: middle; }
+  .lg-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; fill: var(--slate); }
+  .lg-amber-t { fill: #A66A1A; }
+
   /* ---------- Work cards ---------- */
   .cards {
     display: grid;
@@ -652,6 +677,7 @@
             <div class="row"><a href="#artifact-1" data-open="modal-1">01 &nbsp;Professional self-assessment</a></div>
             <div class="row"><a href="#artifact-2" data-open="modal-2">02 &nbsp;Podium Pal speaker matching</a></div>
             <div class="row"><a href="#artifact-3" data-open="modal-3">03 &nbsp;Neural network explainer</a></div>
+            <div class="row"><a href="#artifact-4" data-open="modal-4">04 &nbsp;Pricing engine domain model</a></div>
           </div>
         </details>
       </li>
@@ -815,6 +841,12 @@
           <span class="an">Artifact 03</span>
           <h3>A neural network, explained without the math</h3>
           <span class="prev">Einstein gets credited with the line that if you cannot explain something simply, you do not understand it well enough.</span>
+          <span class="open mono">Open artifact &rarr;</span>
+        </button>
+        <button type="button" class="art-card" data-open="modal-4" aria-haspopup="dialog">
+          <span class="an">Artifact 04</span>
+          <h3>Pricing engine as domain model</h3>
+          <span class="prev">This artifact builds on the slab pricing calculator from Artifact 02, but solves a different problem.</span>
           <span class="open mono">Open artifact &rarr;</span>
         </button>
       </div>
@@ -1084,6 +1116,80 @@
         </div>
       </div>
     
+    </div>
+  </div>
+</dialog>
+
+<dialog id="modal-4" class="artifact-modal" aria-labelledby="m4title">
+  <div class="modal-shell">
+    <div class="modal-topbar"><button type="button" class="modal-close" aria-label="Close artifact">&times;</button></div>
+    <div class="modal-body">
+      <p class="eyebrow mono">Artifact &middot; AIML-500</p>
+      <div class="artifact-head">
+        <span class="artifact-no">Artifact 04</span>
+        <h2 id="m4title" style="margin-bottom:0;">Pricing engine as domain model</h2>
+      </div>
+      <p class="art-intro" style="margin-bottom:22px;">Encoding a stone catalog into advisory logic. Built July 28 to 31, 2026. Deployed and in active daily use.</p>
+      <div class="spec-strip">
+        <div class="cell"><div class="fig">46</div><div class="cap">quartz colors modeled</div></div>
+        <div class="cell"><div class="fig">9</div><div class="cap">price groups</div></div>
+        <div class="cell"><div class="fig">Advisory</div><div class="cap">never enforced</div></div>
+      </div>
+      <div class="artifact-fields">
+        <div class="field">
+          <h3>Introduction</h3>
+          <p>This artifact builds on the slab pricing calculator from Artifact 02, but solves a different problem. Artifact 02 was building a working tool that did the math. This one encodes an entire product catalog and its pricing rules into a structured model a machine can reason over, then makes a deliberate decision about how much authority that model should hold over the people using it. Same codebase. The work here is the data modeling underneath it.</p>
+        </div>
+        <div class="field">
+          <h3>Description</h3>
+          <p>The pricing engine represents 46 quartz colors across nine price groups, with real constraints on which size, thickness, and finish combinations exist for each color. Two mechanical rules apply everywhere: a thickness adjustment dropping one dollar per square foot at 2CM and two dollars at 1.5CM, and a fulfilment rule where pickup earns bundle pricing and delivery earns single pricing regardless of quantity. The system suggests the correct price for a known color and configuration, flags configurations the catalog does not list with an amber advisory, and always leaves the price field editable so a rep can override.</p>
+        </div>
+        <div class="field">
+          <h3>Objective</h3>
+          <p>Stop every price from being typed by hand and remembered from a nine-tier list, without building a rigid system that rejects the exact quotes that need human judgment. A meaningful share of real business happens outside the standard catalog: discontinued colors still get quoted, limited runs appear without notice, Grade-B versions price below standard. Represent the domain accurately enough that a suggestion can be trusted, while keeping the rep as final authority.</p>
+        </div>
+        <div class="field">
+          <h3>Process</h3>
+          <p>I mapped the catalog, which is far more structured than a price list: each color carries a price group, valid size and thickness combinations, a default finish, and a discontinued status. The decision that did the most work was keying prices to group rather than color. That means nine values are maintained instead of forty-six, and any new color simply inherits its tier, which is 92 individual price values I never have to declare or keep in sync. I did the same with assets: image filenames are derived from the color name by rule, so zero filenames are recorded anywhere and adding a color needs no new wiring.</p>
+          <p>The central decision was to build the model to advise rather than enforce, warning and proceeding instead of rejecting. Partway through I found my own model was wrong. I had tied bundle pricing to a quantity threshold, a plausible rule that produced correct-looking output and was wrong about the business. The domain expert caught what no test could, because the output looked right. I corrected it so pickup gives bundle pricing and delivery gives single, regardless of quantity.</p>
+        </div>
+        <div class="field">
+          <h3>Tools and technologies used</h3>
+          <p>Vanilla JavaScript, HTML, and CSS with no framework dependencies. Browser local storage for persistence. Group-keyed data normalization and rule-derived asset naming for maintainability. Deployed on GitHub Pages and in active daily use by the sales team. Claude (Anthropic) supported development. The domain model, the pricing rules, and the advise-over-enforce decision are my own.</p>
+        </div>
+        <div class="field">
+          <h3>Value proposition</h3>
+          <div class="vp-block"><strong>Unique value.</strong> This is not a calculator. It is a business's operating rules encoded into a data structure and governed by a deliberate choice to advise rather than control. The harder decision was not technical. It was recognizing that a validating system would refuse exactly the edge cases where a rep's judgment matters, and choosing to keep the human in charge. The data is normalized so the catalog owner, not the code author, can extend it.</div>
+          <div class="vp-block"><strong>Relevance.</strong> Translating informal domain knowledge into a machine-readable model, designing for the exception rather than the happy path, and deciding where a human stays in the loop are core competencies at the intersection of AI, data, and commercial strategy. It is the same instinct as Artifact 03, where the useful move was naming the limit rather than hiding it.</div>
+        </div>
+        <div class="field">
+          <h3>Evidence</h3>
+          <p>The pricing engine is deployed and in active daily use at Surfaces by Pacific. The core architectural choice is below: the model treats every catalog constraint as a suggestion, never a wall.</p>
+          <figure class="logic" aria-labelledby="lgcap">
+            <svg viewBox="0 0 660 250" role="img" aria-label="A quote enters the model. A known configuration returns a suggested price. An unknown configuration returns an amber advisory. Both leave the price editable by the rep.">
+              <rect class="lg-box" x="20" y="100" width="150" height="50" rx="3"/>
+              <text class="lg-tc" x="95" y="122">Rep enters</text>
+              <text class="lg-tc" x="95" y="138">a quote</text>
+              <path class="lg-line" d="M170,125 H232"/>
+              <text class="lg-lbl" x="180" y="116">in catalog?</text>
+              <path class="lg-line" d="M232,125 C252,125 252,61 277,61"/>
+              <path class="lg-line" d="M232,125 C252,125 252,191 277,191"/>
+              <rect class="lg-box" x="277" y="37" width="182" height="48" rx="3"/>
+              <text class="lg-tc" x="368" y="58">Known config</text>
+              <text class="lg-tc" x="368" y="74">suggests a price</text>
+              <rect class="lg-amber" x="277" y="167" width="182" height="48" rx="3"/>
+              <text class="lg-tc lg-amber-t" x="368" y="188">Unknown config</text>
+              <text class="lg-tc lg-amber-t" x="368" y="204">amber advisory</text>
+              <path class="lg-line" d="M459,61 C504,61 504,125 529,125"/>
+              <path class="lg-line" d="M459,191 C504,191 504,125 529,125"/>
+              <rect class="lg-box" x="529" y="100" width="118" height="50" rx="3" style="stroke-width:2.6"/>
+              <text class="lg-tc" x="588" y="122">Price stays</text>
+              <text class="lg-tc" x="588" y="138">editable</text>
+            </svg>
+            <figcaption id="lgcap">Every path ends at the same place: the rep decides.</figcaption>
+          </figure>
+        </div>
+      </div>
     </div>
   </div>
 </dialog>
